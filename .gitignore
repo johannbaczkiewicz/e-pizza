@@ -3,3 +3,4 @@ bin/
 obj/
 node_modules/
 yarn-error.log
+test.vue
