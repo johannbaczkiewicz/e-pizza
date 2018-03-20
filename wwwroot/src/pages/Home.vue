@@ -1,7 +1,15 @@
 <template>
   <div>
-     <router-link to="/about">About</router-link>
-     <router-link to="/contact">Contact</router-link>
-     <h2>I'm in home.</h2>
+     <personal-data></personal-data>
   </div>
 </template>
+
+<script>
+  import PersonalData from './../components/PersonalData.vue'
+  
+  export default {
+     components: {
+            'personal-data': PersonalData
+        }
+  }
+</script>
