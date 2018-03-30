@@ -1,6 +1,6 @@
 <template>
-    <div id="personal-data" class="container">
-        <form class="wrapper" @submit="checkForm">
+    <div id="personal-data">
+        <form class="personal-form-wrapper" @submit="checkForm">
             <div class="errors">
                 <p v-if="errors.length">
                 <b>Please correct the following error(s):</b>
@@ -9,12 +9,12 @@
                 </ul>
             </p>
             </div>        
-            <input class="city personal-form-input full-grid-input" v-model="address.city" placeholder="City"/>
-            <input class="street personal-form-input  full-grid-input" v-model="address.street" placeholder="Street"/>
-            <input class="house personal-form-input  one-column-input" v-model="address.houseNumber" placeholder="House number"/>
-            <input class="apartment personal-form-input  one-column-input" v-model="address.apartmentNumber" placeholder="Apartment number"/>
-            <input class="phone personal-form-input  full-grid-input" v-model="phoneNumber" placeholder="Phone number"/>
-            <input class="submit personal-form-input  full-grid-input" aria-label="Sumbit" type="submit" value="Send">
+            <input class="personal-form-input full-grid-input city" v-model="address.city" placeholder="City"/>
+            <input class="personal-form-input full-grid-input street" v-model="address.street" placeholder="Street"/>
+            <input class="personal-form-input one-column-input house" v-model="address.houseNumber" placeholder="House number"/>
+            <input class="personal-form-input one-column-input apartment" v-model="address.apartmentNumber" placeholder="Apartment number"/>
+            <input class="personal-form-input full-grid-input phone" v-model="phoneNumber" placeholder="Phone number"/>
+            <input class="personal-form-input full-grid-input submit" aria-label="Sumbit" type="submit" value="Send">
         </form>
        
     </div>
@@ -117,9 +117,10 @@
 
 <style lang="scss">  
     $form-gap: 10px;
+    $column-count: 2;
     $form-width: 250px;
-    $form-column-width: $form-width / 2;
-    $form-width-with-gap: $form-width + $form-gap;
+    $form-column-width: $form-width / $column-count;
+    $form-width-with-gap: $form-width + ($form-gap * ($column-count - 1));
 
     .personal-form-input{
         // min-height: 50px;
@@ -173,13 +174,13 @@
         grid-area: submit;
     }
 
-    .wrapper{
+    .personal-form-wrapper{
         width: $form-width-with-gap;
         // background-color: rebeccapurple;
         display: grid;
         grid-gap: $form-gap;
         grid-auto-rows: auto;
-        grid-template-columns: $form-column-width $form-column-width;
+        grid-template-columns: repeat($column-count, $form-column-width);
         grid-template-areas: 
             "errors errors"
             "city city"
