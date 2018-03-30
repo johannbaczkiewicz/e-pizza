@@ -9,12 +9,12 @@
                 </ul>
             </p>
             </div>        
-            <input class="city pdata-form-input full-grid-input" v-model="address.city" placeholder="City"/>
-            <input class="street pdata-form-input  full-grid-input" v-model="address.street" placeholder="Street"/>
-            <input class="house pdata-form-input  one-column-input" v-model="address.houseNumber" placeholder="House number"/>
-            <input class="apartment pdata-form-input  one-column-input" v-model="address.apartmentNumber" placeholder="Apartment number"/>
-            <input class="phone pdata-form-input  full-grid-input" v-model="phoneNumber" placeholder="Phone number"/>
-            <input class="submit pdata-form-input  full-grid-input" aria-label="Sumbit" type="submit" value="Send">
+            <input class="city personal-form-input full-grid-input" v-model="address.city" placeholder="City"/>
+            <input class="street personal-form-input  full-grid-input" v-model="address.street" placeholder="Street"/>
+            <input class="house personal-form-input  one-column-input" v-model="address.houseNumber" placeholder="House number"/>
+            <input class="apartment personal-form-input  one-column-input" v-model="address.apartmentNumber" placeholder="Apartment number"/>
+            <input class="phone personal-form-input  full-grid-input" v-model="phoneNumber" placeholder="Phone number"/>
+            <input class="submit personal-form-input  full-grid-input" aria-label="Sumbit" type="submit" value="Send">
         </form>
        
     </div>
@@ -121,7 +121,7 @@
     $form-column-width: $form-width / 2;
     $form-width-with-gap: $form-width + $form-gap;
 
-    .pdata-form-input{
+    .personal-form-input{
         // min-height: 50px;
         font-size: 14px;
     }
