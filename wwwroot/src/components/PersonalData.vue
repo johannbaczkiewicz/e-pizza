@@ -1,17 +1,20 @@
 <template>
-    <div id="personal-data">
-        <form @submit="checkForm">
-             <p v-if="errors.length">
+    <div id="personal-data" class="container">
+        <form class="wrapper" @submit="checkForm">
+            <div class="errors">
+                <p v-if="errors.length">
                 <b>Please correct the following error(s):</b>
                 <ul>
                     <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                 </ul>
             </p>
-            <input v-model="phoneNumber" placeholder="Phone number"/>
-            <input v-model="address.street" placeholder="Street"/>
-            <input v-model="address.city" placeholder="City"/>
-            <input v-model="address.zipCode" placeholder="Zip Code"/>
-            <input aria-label="Sumbit" type="submit" value="Send">
+            </div>        
+            <input class="city pdata-form-input full-grid-input" v-model="address.city" placeholder="City"/>
+            <input class="street pdata-form-input  full-grid-input" v-model="address.street" placeholder="Street"/>
+            <input class="house pdata-form-input  one-column-input" v-model="address.houseNumber" placeholder="House number"/>
+            <input class="apartment pdata-form-input  one-column-input" v-model="address.apartmentNumber" placeholder="Apartment number"/>
+            <input class="phone pdata-form-input  full-grid-input" v-model="phoneNumber" placeholder="Phone number"/>
+            <input class="submit pdata-form-input  full-grid-input" aria-label="Sumbit" type="submit" value="Send">
         </form>
        
     </div>
@@ -22,94 +25,168 @@
     import Regex from './../models/Regex.js'
 
     export default {
+        name: 'PersonalData',
         data(){
             return{
                 errors: [],
                 phoneNumber: null,
-                address: new Address(null, null, null),
+                address: new Address(null, null, null, null),
             } 
         },
         methods: {
-            checkPhoneNumber(){
-                if(!this.phoneNumber) 
+            checkForm(e){         
+                this.errors = [];
+
+                this.checkAddress(this.address);
+                this.checkPhoneNumber(this.phoneNumber);
+
+                if(!this.errors.length) return true;
+                e.preventDefault();            
+            },
+            checkAddress(address){
+                this.$_checkCity(address.city);
+                this.$_checkStreet(address.street);
+                this.$_checkHouseNumber(address.houseNumber);
+                this.$_checkApartmentNumber(address.apartmentNumber);
+            },
+            checkPhoneNumber(phoneNumber){
+                if(!phoneNumber) 
                 {
                     this.errors.push("Phone number required.");
                 }
                 else
                 {
-                    if(!Regex.validPhoneNumber(this.phoneNumber))
+                    if(!Regex.validPhoneNumber(phoneNumber))
                     {           
                         this.errors.push("Incorrect phone number format.");                        
                     }
                 }   
             },
-            checkStreet(){
-                if(!this.address.street)
-                {
-                    this.errors.push("Street required.");
-                }
-                else
-                {
-                    if(!Regex.validStreet(this.address.street))
-                    {           
-                        this.errors.push("Incorrect street format.");                        
-                    }        
-                }    
-            },
-            checkCity(){
-                if(!this.address.city)
+            $_checkCity(city){
+                if(!city)
                 {
                     this.errors.push("City required.");
                 }
                 else
                 {
-                    if(!Regex.validCity(this.address.city))
+                    if(!Regex.validCity(city))
                     {           
                         this.errors.push("Incorrect city format.");                        
                     }        
                 }    
             },
-            checkZipCode(){
-                if(!this.address.zipCode)
+            $_checkStreet(street){
+                if(!street)
                 {
-                    this.errors.push("Zip code required.");
+                    this.errors.push("Street required.");
                 }
                 else
                 {
-                    if(!Regex.validZipCode(this.address.zipCode))
+                    if(!Regex.validStreet(street))
                     {           
-                        this.errors.push("Incorrect zip code format.");                        
+                        this.errors.push("Incorrect street format.");                        
+                    }        
+                }    
+            },          
+            $_checkHouseNumber(houseNumber){
+                if(!houseNumber)
+                {
+                    this.errors.push("House number required.");
+                }
+                else
+                {
+                    if(!Regex.validNumber(houseNumber))
+                    {           
+                        this.errors.push("Incorrect house number format.");                        
                     }        
                 }    
             },
-            checkForm(e){         
-                this.errors = [];
-
-                this.checkPhoneNumber();
-                this.checkZipCode();
-                this.checkStreet();
-                this.checkCity();
-
-                if(!this.errors.length) return true;
-                e.preventDefault();            
+            $_checkApartmentNumber(apartmentNumber){
+                if(!apartmentNumber){}
+                else
+                {
+                    if(!Regex.validNumber(apartmentNumber))
+                    {           
+                        this.errors.push("Incorrect apartment number format.");                        
+                    }        
+                }    
             }
         }
     }
 </script>
 
-<style lang="scss" scoped>
-    *{
-        box-sizing: border-box;
+<style lang="scss">  
+    $form-gap: 10px;
+    $form-width: 250px;
+    $form-column-width: $form-width / 2;
+    $form-width-with-gap: $form-width + $form-gap;
+
+    .pdata-form-input{
+        // min-height: 50px;
+        font-size: 14px;
     }
-    ul, li{
-        list-style-type: none;
-        padding: 0;
+
+    .full-grid-input{
+        max-width: $form-width-with-gap;
     }
-    form, input{
-        display: block;
+
+    .one-column-input{
+        max-width: $form-column-width;
     }
-    input{
-        margin-top: 24px;
+
+    .container{
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        // background-color: darkorange;
+    }
+
+    .errors{
+        grid-area: errors;
+        font-size: 12px;
+    }
+
+    .city{
+        grid-area: city;
+    }
+
+    .street {
+        grid-area: street;
+    }
+
+    .house {
+        grid-area: house;
+    }
+
+    .apartment{
+        grid-area: apartment;
+    }
+
+    .phone {
+        grid-area: phone;
+    }
+
+    .submit {
+        grid-area: submit;
+    }
+
+    .wrapper{
+        width: $form-width-with-gap;
+        // background-color: rebeccapurple;
+        display: grid;
+        grid-gap: $form-gap;
+        grid-auto-rows: auto;
+        grid-template-columns: $form-column-width $form-column-width;
+        grid-template-areas: 
+            "errors errors"
+            "city city"
+            "street street"
+            "house apartment"
+            "phone phone"
+            "submit submit";
     }
 </style>
 

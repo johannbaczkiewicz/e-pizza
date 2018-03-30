@@ -13,3 +13,11 @@
         }
   }
 </script>
+
+<style lang="scss">
+  .limiter{
+    width: 100%;
+    margin: 0 auto;
+    background-color: mediumseagreen;
+  }
+</style>

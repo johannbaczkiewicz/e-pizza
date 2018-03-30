@@ -1,9 +1,10 @@
 export default class Address
 {
-    constructor(city, street, zipCode) 
+    constructor(city, street, houseNumber, apartmentNumber) 
     {
         this.city = city;
         this.street = street;
-        this.zipCode = zipCode;
+        this.houseNumber = houseNumber;
+        this.apartmentNumber = apartmentNumber;
     }
 }
