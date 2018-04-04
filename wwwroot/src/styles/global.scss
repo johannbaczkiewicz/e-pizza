@@ -1,0 +1,40 @@
+.operation-btn{
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: dodgerblue;
+}
+
+.pizza-name{
+    font-size: 16px;
+    color: blue;
+}
+
+.ingredients-list{
+    display: inline;
+    list-style: none;
+    font-size: 12px;
+    font-family: sans-serif;
+
+    li{
+        display: inline;
+    }
+
+    li:after{
+        content: ", ";
+    }
+
+    li:last-child:after{
+        content: "";
+    }
+}
+
+
