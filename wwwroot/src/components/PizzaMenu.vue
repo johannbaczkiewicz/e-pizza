@@ -14,7 +14,7 @@
              <div class="pizza-menu-wrapper">
                 <span class="pizza-name pizza-name-area">{{ pizza.name }}</span>
                 <span class="pizza-price-area">{{ formatPrice(index) }} zł</span>
-                <button class="add-pizza-btn add-pizza-btn-area" @click="choosePizza(index)">+</button>
+                <button class="add-pizza-btn add-pizza-btn-area" @click="addPizzaToOrder(index)">+</button>
                 <ul class="ingredients-area ingredients-list">
                     <li v-for="(ingredient, index) in pizza.ingredients" :key="index">{{ingredient}}</li>
                 </ul>
@@ -30,20 +30,21 @@
     export default {
         data(){
             return{
-                picked: "small",
-                pizzas: [new Pizza("Margherita", ["sos pom.", "ser", "peperoni"], 18.5, 18.5, 22.0, 24.5), 
-                         new Pizza("Rzeźnicka", ["sos pom.", "ser", "peperoni", "kabanos", "wołowina"], 22.0, 22.0, 25.5, 27.4),
-                         new Pizza("Prosciutto", ["sos pom.", "ser", "szynka", "oregano"], 18.9, 18.9, 22.4, 24.8),
-                         new Pizza("Hawai", ["sos pom.", "ser", "szynka", "ananas", "oregano"], 21.9, 21.9, 24.0, 26.5)]
+                picked: "small",     
+            }
+        },
+        computed: {
+            pizzas() {
+                return this.$store.getters.pizzas;
             }
         },
         methods: {
-            choosePizza(index){
-                 console.log(index);
-                 console.log(this.pizzas[index].name);
+            addPizzaToOrder(index) {
+                this.$store.commit('addPizzaToOrder', index);
             },
-            formatPrice(index){
-                return this.pizzas[index].price.toFixed(2);
+            formatPrice(index) {
+                const item = this.$store.getters.pizzas[index];
+                return item.price.toFixed(2);
             }
         }
     }

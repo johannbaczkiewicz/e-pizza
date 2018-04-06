@@ -1,7 +1,7 @@
 <template>
   <div>
      <!-- <personal-data></personal-data> -->
-     <!-- <pizza-menu></pizza-menu> -->
+     <pizza-menu></pizza-menu>
      <order-board></order-board>
   </div>
 </template>

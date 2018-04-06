@@ -1,15 +1,17 @@
 <template>
   <div id="order-board">
-      <div v-for="(orderItem, index) in orderItems" :key="index">
+      <h2>My order:</h2>
+      <div v-for="(item, index) in order" :key="index">
           <div class="order-item-wrapper">
-               <span class="count-area">{{orderItem.count}}x</span>
-               <span class="pizza-name-area pizza-name">{{orderItem.pizza.name}}</span>
+               <span class="count-area">{{item.count}}x</span>
+               <span class="pizza-name-area pizza-name">{{item.pizza.name}}</span>
                <button class="operation-btn-area operation-btn" @click="decrementOrder(index)">-</button>
                <ul class="ingredients-list">
-                   <li v-for="(ingredient, index2) in orderItem.pizza.ingredients" :key="index2">{{ingredient}}</li>
+                   <li v-for="(ingredient, i) in item.pizza.ingredients" :key="i">{{ingredient}}</li>
                </ul>    
           </div>    
       </div>
+      <span>total costs: {{totalCosts}}</span>
   </div>
 </template>
 
@@ -18,23 +20,17 @@
     import Pizza from './../models/Pizza.js'
 
     export default {
-        data(){
-            return{
-                orderItems: [
-                            new Order(2, new Pizza("Margherita", ["sos pom.", "ser", "peperoni"], 18.5, 18.5, 22.0, 24.5)),
-                            new Order(1, new Pizza("Prosciutto", ["sos pom.", "ser", "szynka", "oregano"], 18.9, 18.9, 22.4, 24.8))
-                            ]
+        computed: {
+            order() {
+                 return this.$store.getters.order;
+            },
+            totalCosts() {
+                 return this.$store.getters.totalCosts;
             }
         },
         methods: {
             decrementOrder(index) {
-                console.log(this.orderItems[index].count)
-                this.orderItems[index].count--;
-                console.log(this.orderItems[index].count)
-                if(this.orderItems[index].count < 1)
-                {
-                    this.orderItems.splice(index, 1);
-                }             
+                this.$store.commit('removePizzaFromOrder', index);    
             }
         }
     }
