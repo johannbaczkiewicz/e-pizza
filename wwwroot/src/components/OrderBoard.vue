@@ -5,13 +5,14 @@
           <div class="order-item-wrapper">
                <span class="count-area">{{item.count}}x</span>
                <span class="pizza-name-area pizza-name">{{item.pizza.name}}</span>
+               <span class="pizza-price-area">{{sumPrice(item)}} zł</span>
                <button class="operation-btn-area operation-btn" @click="decrementOrder(index)">-</button>
                <ul class="ingredients-list">
                    <li v-for="(ingredient, i) in item.pizza.ingredients" :key="i">{{ingredient}}</li>
                </ul>    
           </div>    
       </div>
-      <span>total costs: {{totalCosts}}</span>
+      <span>total costs: {{totalCosts}} zł</span>
   </div>
 </template>
 
@@ -31,6 +32,9 @@
         methods: {
             decrementOrder(index) {
                 this.$store.commit('removePizzaFromOrder', index);    
+            },
+            sumPrice(item) {
+                return (item.pizza.price * item.count).toFixed(2);
             }
         }
     }
@@ -42,7 +46,7 @@
     // ingredients-list
 
     // variables
-    $order-board-width: 54px + 150px + 54px;
+    $order-board-width: 54px + 150px + 76px + 54px;
 
     // local
     button:focus {outline:0;}
@@ -58,6 +62,13 @@
         grid-area: pizza-name;
     }
 
+    .pizza-price-area{
+        grid-area: pizza-price;
+        align-items: center;
+        align-self: center;
+        justify-self: center;
+    }
+
     .operation-btn-area{
         grid-area: operation-btn;
         align-items: center;
@@ -70,9 +81,9 @@
         // background-color: rebeccapurple;
         display: grid;
         grid-auto-rows: auto;
-        grid-template-columns: 54px 150px 54px;
+        grid-template-columns: 54px 150px 76px 54px;
         grid-template-areas: 
-            "count pizza-name operation-btn"
-            "count ingredients operation-btn"
+            "count pizza-name pizza-price operation-btn"
+            "count ingredients pizza-price operation-btn"
     }
 </style>
