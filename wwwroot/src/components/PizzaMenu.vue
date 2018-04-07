@@ -13,7 +13,7 @@
          <div v-for="(pizza, index) in pizzas" :key="index">
              <div class="pizza-menu-wrapper">
                 <span class="pizza-name pizza-name-area">{{ pizza.name }}</span>
-                <span class="pizza-price-area">{{ formatPrice(index) }} zł</span>
+                <span class="pizza-price-area">{{ pizza.prices["32"].toFixed(2) }} zł</span>
                 <button class="add-pizza-btn add-pizza-btn-area" @click="addPizzaToOrder(index)">+</button>
                 <ul class="ingredients-area ingredients-list">
                     <li v-for="(ingredient, index) in pizza.ingredients" :key="index">{{ingredient}}</li>
@@ -25,26 +25,21 @@
 </template>
 
 <script>
-    import Pizza from './../models/Pizza.js'
-    
     export default {
-        data(){
-            return{
-                picked: "small",     
-            }
+        created(){
+            this.getPizzas();
         },
         computed: {
-            pizzas() {
+            pizzas(){
                 return this.$store.getters.pizzas;
             }
         },
         methods: {
-            addPizzaToOrder(index) {
+            addPizzaToOrder(index){
                 this.$store.commit('addPizzaToOrder', index);
             },
-            formatPrice(index) {
-                const item = this.$store.getters.pizzas[index];
-                return item.price.toFixed(2);
+            getPizzas(){
+                this.$store.dispatch('getPizzas');
             }
         }
     }

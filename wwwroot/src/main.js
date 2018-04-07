@@ -5,14 +5,38 @@ import Users from './pages/Users.vue'
 import Home from './pages/Home.vue'
 import About from './pages/About.vue'
 import Contact from './pages/Contact.vue'
+import Order from './pages/Order.vue';
 import MainLayout from './layouts/MainLayout.vue'
 import { store } from './store'
 
 Vue.use(VueRouter);
-
 const routes = [
     // { path: '/users/:teamId', component: Users}
-    { path: '/', component: Home},
+    { 
+        path: '/', 
+        component: Home,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("personalData") !== null) 
+            {
+                localStorage.removeItem("personalData");
+            }
+            next();
+        }
+    },
+    { 
+        path: '/order', 
+        component: Order,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("personalData") === null) 
+            {
+                router.push({ path: '/' })
+            }
+            else
+            {
+                next();
+            }
+        }
+    },
     { 
         path: '/', 
         component: MainLayout,
@@ -30,8 +54,7 @@ const routes = [
                     meta: {description: 'Contact to me.'}
                 }
         ]
-    },
-    
+    },  
 ];
 
 const router = new VueRouter({

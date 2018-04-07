@@ -5,7 +5,7 @@
           <div class="order-item-wrapper">
                <span class="count-area">{{item.count}}x</span>
                <span class="pizza-name-area pizza-name">{{item.pizza.name}}</span>
-               <span class="pizza-price-area">{{sumPrice(item)}} zł</span>
+               <span class="pizza-price-area">{{partialSumOfPrices(item)}} zł</span>
                <button class="operation-btn-area operation-btn" @click="decrementOrder(index)">-</button>
                <ul class="ingredients-list">
                    <li v-for="(ingredient, i) in item.pizza.ingredients" :key="i">{{ingredient}}</li>
@@ -13,13 +13,11 @@
           </div>    
       </div>
       <span>total costs: {{totalCosts}} zł</span>
+      <button>Send order</button>
   </div>
 </template>
 
 <script>
-    import Order from './../models/Order.js'
-    import Pizza from './../models/Pizza.js'
-
     export default {
         computed: {
             order() {
@@ -33,8 +31,8 @@
             decrementOrder(index) {
                 this.$store.commit('removePizzaFromOrder', index);    
             },
-            sumPrice(item) {
-                return (item.pizza.price * item.count).toFixed(2);
+            partialSumOfPrices(item) {
+                return (item.pizza.prices["32"] * item.count).toFixed(2);
             }
         }
     }

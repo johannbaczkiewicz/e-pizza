@@ -1,6 +1,6 @@
 <template>
     <div id="personal-data">
-        <form class="personal-form-wrapper" @submit="checkForm">
+        <form class="personal-form-wrapper" @submit="submitData">
             <div class="errors">
                 <p v-if="errors.length">
                 <b>Please correct the following error(s):</b>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+    import CustomerData from './../models/CustomerData.js'
     import Address from './../models/Address.js'
     import Regex from './../models/Regex.js'
 
@@ -34,14 +35,25 @@
             } 
         },
         methods: {
-            checkForm(e){         
+            submitData(e){
+                const result = this.checkForm();
+
+                if(result == true)
+                {
+                    const personalData = new CustomerData(this.phoneNumber, this.address);
+                    localStorage.setItem("personalData", JSON.stringify(personalData));
+                    this.$router.push({ path: 'order' })
+                }
+                e.preventDefault();      
+            },
+            checkForm(){         
                 this.errors = [];
 
                 this.checkAddress(this.address);
-                this.checkPhoneNumber(this.phoneNumber);
-
+                this.checkPhoneNumber(this.phoneNumber);   
+                
                 if(!this.errors.length) return true;
-                e.preventDefault();            
+                return false;
             },
             checkAddress(address){
                 this.$_checkCity(address.city);

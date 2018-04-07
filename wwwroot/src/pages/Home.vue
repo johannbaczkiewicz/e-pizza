@@ -1,8 +1,8 @@
 <template>
   <div>
-     <!-- <personal-data></personal-data> -->
-     <pizza-menu></pizza-menu>
-     <order-board></order-board>
+     <personal-data></personal-data>
+     <!-- <pizza-menu></pizza-menu>
+     <order-board></order-board> -->
   </div>
 </template>
 
@@ -16,7 +16,7 @@
             'personal-data': PersonalData,
             'pizza-menu': PizzaMenu,
             'order-board': OrderBoard
-        }
+     }
   }
 </script>
 

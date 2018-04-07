@@ -1,12 +1,9 @@
 export default class Pizza
 {
-    constructor(name, ingredients, price, price32, price42, price52) 
+    constructor(name, ingredients, prices) 
     {
         this.name = name;
+        this.prices = price;
         this.ingredients = ingredients;
-        this.price = price;
-        this.price32 = price32;
-        this.price42 = price42;
-        this.price52 = price52;
     }
 }
