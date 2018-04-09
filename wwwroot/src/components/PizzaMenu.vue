@@ -8,11 +8,11 @@
          <label for="large-pizza">52cm</label>
          <br>
          <span>Picked: {{ picked }}</span> -->
-         <h2>PIZZA MENU</h2>
+         <h2 class="uppercase">Pizza Menu</h2>
          <hr class="hr-pizza-menu"/>
          <div v-for="(pizza, index) in pizzas" :key="index">
              <div class="pizza-menu-wrapper">
-                <span class="pizza-name pizza-name-area">{{ pizza.name }}</span>
+                <span class="pizza-name pizza-name-area uppercase">{{ pizza.name }}</span>
                 <span class="pizza-price-area">{{ pizza.prices["32"].toFixed(2) }} zł</span>
                 <button class="add-pizza-btn add-pizza-btn-area" @click="addPizzaToOrder(index)">+</button>
                 <ul class="ingredients-area ingredients-list">
@@ -25,6 +25,10 @@
 </template>
 
 <script>
+    // TODO:radio-buttons
+    // https://codepen.io/raubaca/pen/ONzBxP
+    // https://codepen.io/mblode/pen/gGIAm
+
     export default {
         created(){
             this.getPizzas();
@@ -45,28 +49,31 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+    @import './../styles/global.scss';
+    @import url('https://fonts.googleapis.com/css?family=Gaegu');
     $menu-width: 400px;
 
     button:focus {outline:0;}
 
     h2{
         font-size: 16px;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-family: Gaegu, sans-serif;
         font-weight: 400;
         color: darkgoldenrod;
     }
 
     .pizza-name{
         font-size: 16px;
+        font-family: Gaegu, sans-serif;
         color: blue;
     }
 
     .ingredients-list{
         display: inline;
         list-style: none;
-        font-size: 12px;
-        font-family: sans-serif;
+        font-size: 14px;
+        font-family: Gaegu, sans-serif;
 
         li{
             display: inline;
@@ -83,13 +90,13 @@
         padding: 0;
         margin: 0;
         border-radius: 50%;
-        border: none;
-        color: white;
+        border: 1.5px solid dodgerblue;
+        color: dodgerblue;
         text-align: center;
         text-decoration: none;
         cursor: pointer;
         font-size: 16px;
-        background-color: dodgerblue;
+        background-color: transparent;
     }
 
     .pizza-name-area {
@@ -101,6 +108,8 @@
         align-items: center;
         align-self: center;
         justify-self: right;
+        font-family: Gaegu, sans-serif; //delete
+        font-size: 16px;
     }
 
     .add-pizza-btn-area {

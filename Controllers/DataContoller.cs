@@ -8,7 +8,7 @@ namespace e_pizza
     [Route("api/")]
     public class DataController: Controller
     {
-        List<IPizza> pizzas = new List<IPizza>
+        List<Pizza> pizzas = new List<Pizza>
         {
             new Pizza()
             {
@@ -70,11 +70,9 @@ namespace e_pizza
         }
 
         [HttpPost("order")]
-        public IActionResult PostOrder([FromBody] IOrder order)
-        {
-            // send to db
-            var result = "";
-            return Json(result);
+        public IActionResult PostOrder([FromBody] Order order)
+        { 
+            return Json(new { Result = order != null ? true : false, Order = order });
         }
     }
 }
