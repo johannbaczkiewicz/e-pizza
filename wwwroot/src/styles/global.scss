@@ -1,3 +1,9 @@
+.bg{
+    background-image: url("./../../resources/img/black_paper.png");
+    background-repeat: repeat;
+    height: 100vh;
+}
+
 .operation-btn{
     width: 24px;
     height: 24px;
@@ -17,16 +23,14 @@
     text-transform: uppercase;
 }
 
-.pizza-name{
-    font-size: 16px;
-    color: blue;
-}
+// .pizza-name{
+//     font-size: 16px;
+//     color: blue;
+// }
 
 .ingredients-list{
     display: inline;
     list-style: none;
-    font-size: 12px;
-    font-family: sans-serif;
 
     li{
         display: inline;

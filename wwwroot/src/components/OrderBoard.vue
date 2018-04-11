@@ -1,18 +1,19 @@
 <template>
   <div id="order-board">
       <form class="form-wrapper" @submit.prevent="submit">
-        <h2 class="header-area">My order:</h2>
+        <h2 class="uppercase header-area">My order:</h2>
             <div class="order-items-area" v-for="(item, index) in orderItems" :key="index">
                 <div class="order-item-wrapper">
-                    <span class="count-area">{{item.count}}x</span>
+                    <span class="count-area count">{{item.count}}x</span>
                     <span class="pizza-name-area pizza-name">{{item.pizza.name}}</span>
                     <span class="size-area size">{{item.size}} cm</span>
-                    <span class="pizza-price-area">{{partialSumOfPrices(item)}} zł</span>
-                    <button type="button" class="operation-btn-area operation-btn" @click="decrementOrder(index)">-</button>
-                    <ul class="ingredients-list">
+                    <span class="pizza-price-area price">{{partialSumOfPrices(item)}} zł</span>
+                    <button type="button" class="operation-btn-area remove-pizza-btn" @click="decrementOrder(index)">-</button>
+                    <ul class="ingredients ingredients-list">
                         <li v-for="(ingredient, i) in item.pizza.ingredients" :key="i">{{ingredient}}</li>
                     </ul>    
                 </div>    
+                <hr class="hr-pizza-menu"/>
             </div>    
             <span class="total-area">total costs: {{totalCosts}} zł</span>
             <span>{{address.city}} ul. {{address.street}} {{address.houseNumber}}</span>
@@ -96,7 +97,7 @@
     // ingredients-list
 
     // variables
-    $order-board-width: 54px + 150px + 76px + 54px;
+    $order-board-width: 60px + 260px + 80px + 60px;
 
     // local
     button:focus {outline:0;}
@@ -106,9 +107,66 @@
        justify-self: right;
     }
 
+    #order-board{
+        padding: 1em;
+        padding-left: 4em;
+        color: #c7c7c7;
+        overflow: hidden;
+    }
+
+    h2{
+        font-size: 1.2em;
+        color: #B0B0B0;
+        margin-left: 0.4em;
+        font-weight: 400;
+    }
+
+    hr{
+        display: block;
+        width: $order-board-width;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #3b3b3b;
+        margin: 1em 0;
+        padding: 0;
+    }
+
+    .count, .price, .pizza-name, .ingredients, h2{
+        font-family: Gaegu, sans-serif;    
+    }
+
+    .count, .price, .pizza-name{
+        font-size: 1.5em;
+    }
+
+    .ingredients{
+         font-size: 1.2em;
+    }
+
+    .remove-pizza-btn{
+        width: 1.4em;
+        height: 1.4em;
+        padding: 0;
+        margin: 0;
+        border-radius: 50%;
+        border: 1.5px solid #20C57E;
+        color: #20C57E;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 1.4em;
+        background-color: transparent;
+    }
+
+      .pizza-name{
+        // margin-left: 0.5em;
+        // font-size: 1.6em;
+        color: #20C57E;
+    }
+
     .size{
-        font-size: 10px;
-        color: green;
+        font-size: 0.9em;
+        color: #20C57E;
     }
 
     // .header-area{
@@ -174,7 +232,7 @@
         // background-color: rebeccapurple;
         display: grid;
         grid-auto-rows: auto;
-        grid-template-columns: 54px 150px 76px 54px;
+        grid-template-columns: 60px 220px 100px 60px;
         grid-template-areas: 
             "count pizza-name pizza-price operation-btn"
             "count size pizza-price operation-btn"

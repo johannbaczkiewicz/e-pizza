@@ -170,7 +170,7 @@
     $focus-height: 0.05em;
     $form-gap: 24px;
     $column-count: 2;
-    $form-width: 200px;
+    $form-width: 240px;
     $form-column-width: $form-width / $column-count;
     $form-width-with-gap: $form-width + ($form-gap * ($column-count - 1));
 
@@ -211,12 +211,12 @@
 
     .form-label{
         padding-left: 1px;
-        font-size: 11px;
+        font-size: 0.84em;
         font-weight: 400;
         font-family: 'Anaheim', sans-serif;
-        line-height: 1.5;
+        // line-height: 1.5;
         color: #adadad;
-        letter-spacing: 1.5px;
+        letter-spacing: 0.2em;
         text-align: left;
     }
 
@@ -228,11 +228,11 @@
         position: relative;
     }
 
-    .bg{
-        background-image: url("./../../resources/img/black_paper.png");
-        background-repeat: repeat;
-        height: 100vh;
-    }
+    // .bg{
+    //     background-image: url("./../../resources/img/black_paper.png");
+    //     background-repeat: repeat;
+    //     height: 100vh;
+    // }
 
     .form-button{
         margin-top: 18px;
@@ -253,8 +253,9 @@
 
     .personal-form-input{
         // min-height: 50px;
+        font-family: 'Anaheim', sans-serif;
         padding: 0 4px;
-        font-size: 14px;
+        font-size: 1.2em;
         color: #c7c7c7;
         line-height: 1.2;
         height: 28px;
@@ -348,6 +349,7 @@
         display: grid;
         grid-row-gap: 12px;
         grid-column-gap: $form-gap;
+        grid-row-gap: 1.8em;
         grid-auto-rows: auto;
         grid-template-columns: repeat($column-count, $form-column-width);
         grid-template-areas: 

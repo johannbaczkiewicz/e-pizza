@@ -1,7 +1,10 @@
 <template>
-   <div id="order">
+   <div class="bg flexcenter" id="order">
+     <div class="order">
         <pizza-menu></pizza-menu>
         <order-board></order-board>
+     </div>
+    
    </div>
 </template>
 
@@ -18,5 +21,17 @@
 </script>
 
 <style lang="scss">
+  @import './../styles/global.scss';
 
+  .flexcenter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .order{
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+  }
 </style>
