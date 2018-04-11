@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import OrderItem from './models/OrderItem'
 import Pizza from './models/Pizza'
-import axios from 'axios';
+import axios from 'axios'
+import config from './../../config.json'
 
 Vue.use(Vuex);
 
@@ -10,9 +11,15 @@ export const store = new Vuex.Store({
     state: {
         pizzas: [],
         orderItems: [],
-        totalCosts: 0.00
+        totalCosts: 0.00,
+        errors: [],
+        config: config
     },
     getters: {
+        serverAddress(state){
+            let obj =  JSON.parse(JSON.stringify(state.config))
+            return obj.webapi_server_address;
+        },
         orderItems(state) {
             return state.orderItems;
         },
@@ -63,8 +70,9 @@ export const store = new Vuex.Store({
         },
         getPizzas(state){
             state.pizzas = [];
+            const srvAddress = store.getters.serverAddress;
 
-            axios.get('http://localhost:5000/api/pizzas')
+            axios.get(srvAddress + 'api/pizzas')
             .then(response => {
                 const pizzas = response.data;                   
                     console.log("get pizzas");
@@ -73,7 +81,7 @@ export const store = new Vuex.Store({
                     });     
             })
             .catch(e => {
-              this.errors.push(e)
+                state.errors.push(e);
             })
         },
         resetMenu(state){

@@ -1,0 +1,4 @@
+{
+    "webapi_server_address": "http://localhost:5000/",
+    "db_server_address" : ""
+}

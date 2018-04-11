@@ -38,6 +38,9 @@
             }
         },
         computed: {
+            serverAddress(){
+                return this.$store.getters.serverAddress;
+            },
             orderItems() {
                  return this.$store.getters.orderItems;
             },
@@ -64,7 +67,7 @@
 
                 if(order.orderItems.length > 0)
                 {
-                    axios.post('http://localhost:5000/api/order', JSON.stringify(order),
+                    axios.post(this.serverAddress + 'api/order', JSON.stringify(order),
                     { headers: { 'Content-Type': 'application/json' } })
                         .then(response => {
                             const result = response.data;    
