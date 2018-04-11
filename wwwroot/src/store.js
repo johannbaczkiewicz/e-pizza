@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import Order from './models/Order'
+import OrderItem from './models/OrderItem'
 import Pizza from './models/Pizza'
 import axios from 'axios';
 
@@ -9,12 +9,12 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
     state: {
         pizzas: [],
-        order: [],
+        orderItems: [],
         totalCosts: 0.00
     },
     getters: {
-        order(state) {
-            return state.order;
+        orderItems(state) {
+            return state.orderItems;
         },
         pizzas(state){
             return state.pizzas;
@@ -30,14 +30,13 @@ export const store = new Vuex.Store({
         }
     },
     mutations: {
-        addPizzaToOrder(state, index) {
-            const pizza = state.pizzas[index];
+        addPizzaToOrder(state, { pizza, size }) {
             let isInOrder = false;
 
-            if(state.order.length > 0)
+            if(state.orderItems.length > 0)
             {
-                state.order.forEach(item => {
-                    if(JSON.stringify(item.pizza) === JSON.stringify(pizza))
+                state.orderItems.forEach(item => {
+                    if(JSON.stringify(item.pizza) === JSON.stringify(pizza) && item.size === size)
                     {
                         isInOrder = true;            
                         item.count++;      
@@ -47,18 +46,19 @@ export const store = new Vuex.Store({
 
             if(!isInOrder)
             {
-                state.order.push(new Order(1, pizza));
+                state.orderItems.push(new OrderItem(1, pizza, size));
             }
 
-            state.totalCosts += pizza.prices["32"];
+            state.totalCosts += pizza.prices[size];
         },
         removePizzaFromOrder(state, index) {      
-            state.order[index].count--;
-            state.totalCosts -= state.order[index].pizza.prices["32"];
+            state.orderItems[index].count--;
+            const size = state.orderItems[index].size;
+            state.totalCosts -= state.orderItems[index].pizza.prices[size];
 
-            if(state.order[index].count < 1)
+            if(state.orderItems[index].count < 1)
             {
-                state.order.splice(index, 1);
+                state.orderItems.splice(index, 1);
             }                
         },
         getPizzas(state){

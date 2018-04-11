@@ -1,20 +1,18 @@
 <template>
     <div class="pizza-menu">   
-         <!-- <input type="radio" id="small-pizza" value="small" v-model="picked">
-         <label for="small-pizza">32cm</label>
-         <input type="radio" id="medium-pizza" value="medium" v-model="picked">
-         <label for="medium-pizza">42cm</label>
-         <input type="radio" id="large-pizza" value="large" v-model="picked">
-         <label for="large-pizza">52cm</label>
-         <br>
-         <span>Picked: {{ picked }}</span> -->
          <h2 class="uppercase">Pizza Menu</h2>
          <hr class="hr-pizza-menu"/>
          <div v-for="(pizza, index) in pizzas" :key="index">
              <div class="pizza-menu-wrapper">
                 <span class="pizza-name pizza-name-area uppercase">{{ pizza.name }}</span>
-                <span class="pizza-price-area">{{ pizza.prices["32"].toFixed(2) }} zł</span>
-                <button class="add-pizza-btn add-pizza-btn-area" @click="addPizzaToOrder(index)">+</button>
+                <div>
+                    <div v-for="(size, sizeIndex) in sizes" :key="sizeIndex">
+                        <input type="radio" :id="getDynamicId(pizza, index, size)" :value="size" v-model="pickedSize[index]"/>
+                        <label :for="getDynamicId(pizza, index, size)">{{ size }} cm</label>
+                    </div>      
+                </div>
+                <span class="pizza-price-area">{{ getPrice(pizza, pickedSize[index]) }} zł</span>
+                <button class="add-pizza-btn add-pizza-btn-area" @click="addPizzaToOrder(pizza, pickedSize[index])">+</button>
                 <ul class="ingredients-area ingredients-list">
                     <li v-for="(ingredient, index) in pizza.ingredients" :key="index">{{ingredient}}</li>
                 </ul>
@@ -25,13 +23,29 @@
 </template>
 
 <script>
-    // TODO:radio-buttons
-    // https://codepen.io/raubaca/pen/ONzBxP
-    // https://codepen.io/mblode/pen/gGIAm
-
     export default {
         created(){
             this.getPizzas();
+        },
+        data(){
+            return {
+                pickedSize: [],
+                sizes: []
+            }
+        },
+        watch: {
+            pizzas(newValue, oldValue){
+                if(this.pizzas.length > 0)
+                {             
+                    this.sizes = Object.keys(this.pizzas[0].prices);
+                    for (let i = 0; i < this.pizzas.length; i++) 
+                    {
+                        //set default size
+                        this.pickedSize.push(this.sizes[0]);                         
+                    }           
+                }
+                
+            }
         },
         computed: {
             pizzas(){
@@ -39,11 +53,17 @@
             }
         },
         methods: {
-            addPizzaToOrder(index){
-                this.$store.commit('addPizzaToOrder', index);
+            addPizzaToOrder(pizza, size){
+                this.$store.commit('addPizzaToOrder', { pizza, size });
             },
             getPizzas(){
                 this.$store.dispatch('getPizzas');
+            },
+            getDynamicId(pizza, pizzaIndex, size){
+                return (pizza.name + this.pizzas.indexOf(pizza) + "-" + size).toLowerCase();
+            },
+            getPrice(pizza, size){
+                return pizza.prices[size].toFixed(2);
             }
         }
     }
@@ -103,6 +123,10 @@
         grid-area: pizza-name;
     }
 
+    .pizza-size-area{
+        grid-area: pizza-size;
+    }
+
     .pizza-price-area {
         grid-area: pizza-price;
         align-items: center;
@@ -132,6 +156,7 @@
         grid-template-columns: 270px 76px 54px;
         grid-template-areas: 
             "pizza-name pizza-price add-pizza-btn"
+            "pizza-size pizza-price add-pizza-btn"
             "ingredients pizza-price add-pizza-btn"
     }
 

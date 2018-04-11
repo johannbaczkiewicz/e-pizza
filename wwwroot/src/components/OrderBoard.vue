@@ -2,10 +2,11 @@
   <div id="order-board">
       <form class="form-wrapper" @submit.prevent="submit">
         <h2 class="header-area">My order:</h2>
-            <div class="order-items-area" v-for="(item, index) in order" :key="index">
+            <div class="order-items-area" v-for="(item, index) in orderItems" :key="index">
                 <div class="order-item-wrapper">
                     <span class="count-area">{{item.count}}x</span>
                     <span class="pizza-name-area pizza-name">{{item.pizza.name}}</span>
+                    <span class="size-area size">{{item.size}} cm</span>
                     <span class="pizza-price-area">{{partialSumOfPrices(item)}} zł</span>
                     <button type="button" class="operation-btn-area operation-btn" @click="decrementOrder(index)">-</button>
                     <ul class="ingredients-list">
@@ -24,9 +25,10 @@
     //TODO:
     //dodaj nowy model Order
     //dodać guid? id do zamówienia
+    //nie wysyłaj zamówienia jeśli jest puste
     //FIXME:
     //zmień model Order na OrderItem 
-
+    import Order from './../models/Order.js'
     import axios from 'axios'
 
     export default {
@@ -36,8 +38,8 @@
             }
         },
         computed: {
-            order() {
-                 return this.$store.getters.order;
+            orderItems() {
+                 return this.$store.getters.orderItems;
             },
             totalCosts() {
                  return this.$store.getters.totalCosts;
@@ -52,26 +54,34 @@
                 this.$store.commit('removePizzaFromOrder', index);    
             },
             partialSumOfPrices(item) {
-                return (item.pizza.prices["32"] * item.count).toFixed(2);
+                return (item.pizza.prices[item.size] * item.count).toFixed(2);
             },
             submit(e){
-                const order = {
-                     personalData: JSON.parse(localStorage.getItem("personalData")),
-                     orderItems: this.order
-                };
+                const personalData = JSON.parse(localStorage.getItem("personalData"));
+                const orderItems = this.orderItems;
 
-                 axios.post('http://localhost:5000/api/order', JSON.stringify(order),
-                 { headers: { 'Content-Type': 'application/json' } })
-                    .then(response => {
-                        const result = response.data;    
-                            console.log(result);
-                            console.log(response);
-                            return true;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        e.preventDefault();
-                    })
+                const order = new Order(personalData, orderItems);
+
+                if(order.orderItems.length > 0)
+                {
+                    axios.post('http://localhost:5000/api/order', JSON.stringify(order),
+                    { headers: { 'Content-Type': 'application/json' } })
+                        .then(response => {
+                            const result = response.data;    
+                                console.log(result);
+                                console.log(response);
+                                return true;
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            e.preventDefault();
+                        })
+                }
+                else
+                {
+                    e.preventDefault();
+                }
+                
             }
         }
     }
@@ -91,6 +101,11 @@
     .short{
        width: 120px;
        justify-self: right;
+    }
+
+    .size{
+        font-size: 10px;
+        color: green;
     }
 
     // .header-area{
@@ -133,6 +148,10 @@
         grid-area: pizza-name;
     }
 
+    .size-area{
+        grid-area: size;
+    }
+
     .pizza-price-area{
         grid-area: pizza-price;
         align-items: center;
@@ -155,6 +174,7 @@
         grid-template-columns: 54px 150px 76px 54px;
         grid-template-areas: 
             "count pizza-name pizza-price operation-btn"
+            "count size pizza-price operation-btn"
             "count ingredients pizza-price operation-btn"
     }
 </style>

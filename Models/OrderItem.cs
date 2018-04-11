@@ -6,5 +6,6 @@ namespace e_pizza.Models
     {
         public int Count { get; set; }
         public Pizza Pizza { get; set; }
+        public int Size { get; set; }
     }
 }

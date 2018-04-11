@@ -167,7 +167,7 @@
     @import url('https://fonts.googleapis.com/css?family=Great+Vibes');
     @import url('https://fonts.googleapis.com/css?family=Mr+Dafoe');
 
-    $focus-height: 1px;
+    $focus-height: 0.05em;
     $form-gap: 24px;
     $column-count: 2;
     $form-width: 200px;
@@ -177,6 +177,7 @@
     .ribbon{
         width: $form-width-with-gap;
         height: auto;
+        user-select: none;
     }
 
     .ribbon-color{
@@ -242,7 +243,7 @@
         height: 32px;
         border: 1px solid #adadad;
         outline: 0;
-        transition: all 0.1s ease;
+        transition: all 0.13s ease;
         // box-shadow: 2px 2px 4px #555555;
         &:hover, &:focus{
              border: 1px solid #1a9e64;   
@@ -271,7 +272,7 @@
             content: '';
             height: $focus-height;
             background: #1a9e64;
-            transition: all 0.1s linear;
+            transition: all 0.13s linear;
             width: 0;
     }
 

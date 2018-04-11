@@ -1,8 +1,8 @@
 export default class Order
 {
-    constructor(count, pizza) 
+    constructor(personalData, orderItems) 
     {
-        this.count = count;
-        this.pizza = pizza;
+        this.personalData = personalData;
+        this.orderItems = orderItems;
     }
 }
